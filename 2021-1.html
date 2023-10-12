@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Form Web Club</title>
+	</head>
+	<body>
+		<h1>Registrasi Peserta Web Club</h1>
+		<form action="" method="" id="form_web_club" onsubmit="return validasi_form()">
+			<table>
+				<tr>
+					<td>Nama</td>
+					<td><input type="text" name="nama" required /></td>
+				</tr>
+				<tr>
+					<td>Email</td>
+					<td><input type="email" name="email" required /></td>
+				</tr>
+				<tr>
+					<td>Bidang</td>
+					<td>
+						<input type="radio" name="bidang" value="design" />Web Design
+						<input type="radio" name="bidang" value="program" />Web Programming
+					</td>
+				</tr>
+				<tr>
+					<td>Sub Bidang</td>
+					<td>
+						<select name="sub_bidang" id="sub_bidang">
+							<option value="none">-- Pilih Sub Bidang --</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
+					<td>Password</td>
+					<td><input type="password" name="password" size="30" required /></td>
+				</tr>
+				<tr>
+					<td>Konfirmasi Password</td>
+					<td>
+						<input type="password" name="konf_password" required />
+					</td>
+				</tr>
+				<tr>
+					<td>Jadwal</td>
+					<td>
+						<input type="checkbox" name="jadwal[]" value="rabu" />Rabu
+						<input type="checkbox" name="jadwal[]" value="kamis" />Kamis
+						<input type="checkbox" name="jadwal[]" value="jumat" />Jumat
+					</td>
+				</tr>
+				<tr>
+					<td colspan="3">
+						<br />
+						<input type="submit" name="submit" />
+					</td>
+				</tr>
+			</table>
+		</form>
+
+		<script>
+			function makeOption(selectHolder, options) {
+				selectHolder.innerHTML = '<option value="none">-- Pilih Sub Bidang --</option>';
+
+				options.forEach((element) => {
+					let option = document.createElement('option');
+					option.value = element.value;
+					option.text = element.text;
+					selectHolder.appendChild(option);
+				});
+			}
+
+			// Tambahkan event listener untuk radio button
+			document.querySelectorAll('input[name="bidang"]').forEach((radio) => {
+				radio.addEventListener('change', setSubBidang);
+			});
+
+			function setSubBidang() {
+				let selectedValue = document.querySelector('input[name="bidang"]:checked');
+				let subBidangSelect = document.getElementById('sub_bidang');
+				let options = [];
+
+				if (selectedValue && selectedValue.value === 'design') {
+					options = [
+						{ value: 'html', text: 'HTML' },
+						{ value: 'css', text: 'CSS' },
+						{ value: 'js', text: 'Javascript' },
+					];
+				} else if (selectedValue && selectedValue.value === 'program') {
+					options = [
+						{ value: 'php', text: 'PHP' },
+						{ value: 'ajax', text: 'AJAX' },
+						{ value: 'ws', text: 'Web Service' },
+					];
+				}
+
+				makeOption(subBidangSelect, options);
+			}
+
+			// cek bidang
+			function cekBidang() {
+				let bidangDesign = document.querySelector('input[name="bidang"][value="design"]');
+				let bidangProgram = document.querySelector('input[name="bidang"][value="program"]');
+
+				if (!bidangDesign.checked && !bidangProgram.checked) {
+					alert('Pilih bidang');
+					return false;
+				}
+
+				return true;
+			}
+
+			function cekSubBidang() {
+				subBidang = document.querySelector('select[name="sub_bidang"]').value;
+
+				if (subBidang == 'none') {
+					alert('Sub bidang harus dipilih');
+					return false;
+				}
+				return true;
+			}
+
+			// cek kesamaan password dan confirm password
+			function checkConfirmPassword() {
+				let password = document.querySelector('input[name="password"]').value;
+				let confirmPassword = document.querySelector('input[name="konf_password"]').value;
+
+				if (confirmPassword != password) {
+					alert('Konfirmasi password berbeda dengan password');
+					return false;
+				} else {
+					return true;
+				}
+			}
+
+			// cek jadwal
+			function cekJadwal() {
+				let jadwal = document.getElementsByName('jadwal[]');
+				let checkedJadwal = Array.from(jadwal).filter((e) => e.checked);
+
+				if (checkedJadwal.length > 2 || checkedJadwal.length == 0) {
+					alert('Pilih minimal 1 jadwal dan maksimal 2 jadwal');
+					return false;
+				} else {
+					return true;
+				}
+			}
+
+			function validasi_form() {
+				return cekBidang() && cekSubBidang() && checkConfirmPassword() && cekJadwal();
+			}
+		</script>
+	</body>
+</html>

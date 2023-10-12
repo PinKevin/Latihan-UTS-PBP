@@ -31,8 +31,8 @@
 
 		<script>
 			function validate_form() {
-				kelas = document.getElementById('kelas').value;
-				ekstrakur = document.getElementsByName('ekstrakur[]');
+				let kelas = document.getElementById('kelas').value;
+				let ekstrakur = document.getElementsByName('ekstrakur[]');
 				let checkedEkstraktur = Array.from(ekstrakur).filter((e) => e.checked);
 
 				if (kelas == 10) {
