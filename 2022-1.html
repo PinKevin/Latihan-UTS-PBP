@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Form Mahasiswa</title>
+	</head>
+	<body>
+		<form action="" id="form-siswa" onsubmit="return validate_form()">
+			<label for="nama_siswa">Siswa :</label>
+			<input type="text" id="nama_siswa" name="nama_siswa" />
+			<br />
+
+			<label for="kelas">Kelas :</label>
+			<select name="kelas" id="kelas">
+				<option value="10">X</option>
+				<option value="11">XI</option>
+				<option value="12">XII</option>
+			</select>
+			<br />
+
+			<label>Ekstrakurikuler :</label><br />
+			<input type="checkbox" name="ekstrakur[]" value="basket" />Basket<br />
+			<input type="checkbox" name="ekstrakur[]" value="paskibra" />Paskibra <br />
+			<input type="checkbox" name="ekstrakur[]" value="english_club" />English Club <br />
+
+			<div class="ekstrakur"></div>
+
+			<input type="submit" value="Submit" />
+		</form>
+
+		<script>
+			function validate_form() {
+				kelas = document.getElementById('kelas').value;
+				ekstrakur = document.getElementsByName('ekstrakur[]');
+				let checkedEkstraktur = Array.from(ekstrakur).filter((e) => e.checked);
+
+				if (kelas == 10) {
+					if (checkedEkstraktur.length == 0) {
+						alert('Pilih minimal satu ekstrakurikuler');
+						return false;
+					}
+				} else if (kelas == 11) {
+					if (checkedEkstraktur.length > 2) {
+						alert('Pilih maksimal dua ekstrakurikuler');
+						return false;
+					}
+				} else {
+					if (checkedEkstraktur != 0) {
+						alert('Tidak boleh mengikuti ekstrakurikuler');
+						return false;
+					}
+				}
+
+				return true;
+			}
+		</script>
+	</body>
+</html>
